@@ -78,12 +78,35 @@ class KreeManager(commands.Bot):
         if not interaction.response.is_done():
             await interaction.response.send_message(f"❌ Command Error: {error}", ephemeral=True)
 
+from flask import Flask
+from threading import Thread
+
+flask_app = Flask('')
+
+@flask_app.route('/')
+def home():
+    return "Bot is alive!"
+
+def run_flask():
+    # Use port 10000 by default as expected by Render Web Services
+    port = int(os.environ.get("PORT", 10000))
+    flask_app.run(host='0.0.0.0', port=port)
+
+def keep_alive():
+    t = Thread(target=run_flask)
+    t.daemon = True
+    t.start()
+
 async def main():
     if not TOKEN or TOKEN == "your_token_here":
         print("ERROR: Discord Token not found. Please set it in KreeManager/.env")
         return
         
+    # Start the keep alive server to bind to Render's required port
+    keep_alive()
+    
     bot = KreeManager()
+
     async with bot:
         await bot.start(TOKEN)
 
