@@ -98,6 +98,7 @@ def keep_alive():
     t.start()
 
 async def main():
+    print("TOKEN FOUND:", TOKEN is not None)
     if not TOKEN or TOKEN == "your_token_here":
         print("ERROR: Discord Token not found. Please set it in KreeManager/.env")
         return
@@ -106,6 +107,7 @@ async def main():
     keep_alive()
     
     bot = KreeManager()
+
 
     async with bot:
         await bot.start(TOKEN)
