@@ -106,11 +106,13 @@ async def main():
     # Start the keep alive server to bind to Render's required port
     keep_alive()
     
-    bot = KreeManager()
-
-
-    async with bot:
-        await bot.start(TOKEN)
+    print("STARTING DISCORD BOT CLIENT NOW...")
+    try:
+        bot = KreeManager()
+        async with bot:
+            await bot.start(TOKEN)
+    except Exception as e:
+        print("BOT FATAL ERROR DURING STARTUP:", e)
 
 if __name__ == "__main__":
     try:
@@ -119,3 +121,4 @@ if __name__ == "__main__":
         print("\nShutting down...")
     except Exception as e:
         print(f"Fatal Error: {e}")
+
